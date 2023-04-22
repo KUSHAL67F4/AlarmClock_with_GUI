@@ -1,27 +1,26 @@
 # importing the required modules  
-from tkinter import *  
+import tkinter as tk  
 import datetime as dt  
 import time  
 import winsound as ws
 
 # defining the function for the alarm clock  
-def alarm(setAlarmTimer):  
-    while True:  
+def alarm(setAlarmTimer,tick=True):  
+    while tick==True:  
         time.sleep(1)  
         actualTime = dt.datetime.now()  
         currentTime = actualTime.strftime("%H : %M : %S")  
         currentDate = actualTime.strftime("%d / %m / %Y")  
-        the_message = "Current Time: " + str(currentTime)  
-        print(the_message)  
+        print_time = "Current Time: " + str(currentTime)  
+        print(print_time)  
         if currentTime == setAlarmTimer:  
-            print("Time's up. Wake up!!")
+            print("It's Time To Wake Up!!\n")
             freq=1500
-            duration=800
-            '''for i in range(7):
-                for j in range(2):
-                    ws.Beep(freq,duration)'''
+            duration=1000
             for i in range(5):
-                ws.PlaySound("SystemHand",ws.SND_ASYNC)
+                ws.Beep(freq,duration)
+                print("WAKE UP!!!!!!\n")
+                #ws.PlaySound("SystemHand",ws.SND_ASYNC)
                 time.sleep(2)
             '''ws.PlaySound("SystemHand",ws.SND_ASYNC)
             time.sleep(3)
@@ -31,91 +30,97 @@ def alarm(setAlarmTimer):
             time.sleep(3)
             ws.PlaySound("SystemHand",ws.SND_ASYNC)'''
             print("\n \nSet Another Alarm")  
-            break  
+            break
+        elif currentTime >= setAlarmTimer:
+            print("You have crossed the time. Please set another alarm!")
+            break
+            
+
   
 def getAlarmTime():  
-    alarmSetTime = f"{hour.get()} : {minute.get()} : {second.get()}"  
-    alarm(alarmSetTime)  
+    alarmtime = f"{hour.get()} : {minute.get()} : {second.get()}"  
+    alarm(alarmtime,tick=True)  
 
 
 
 # creating the GUI for the application  
-guiWindow = Tk()  
+guiWindow = tk.Tk()  
 guiWindow.title("Alarm Clock")  
-guiWindow.geometry("500x200")  
+guiWindow.geometry("400x200")  
 guiWindow.config(bg = "#87BDD8")  
 guiWindow.resizable(width = False, height = False)  
    
-timeFormat = Label(  
+timeFormat = tk.Label(  
     guiWindow,  
     text = "Remember to set time in 24-hour format!",  
-    fg = "black",  
+    fg = "White",  
     bg = "#36486B",  
     font = ("Times", 15, "bold italic underline")  
     ).place(  
-        x = 75,  
+        x = 45,  
         y = 170  
         )  
    
-add_time = Label(  
+add_time = tk.Label(  
     guiWindow,  
-    text = "Hour          Minute        Second",  
-    font = 60,  
+    text = "  Hour       Minutes   Seconds",  
+    font = 10,  
     fg = "white",  
     bg = "#87BDD8"  
     ).place(  
-        x = 240,  
-        y = 20  
+        x = 200,  
+        y = 30  
         )  
   
-setAlarm = Label(  
+setAlarm = tk.Label(  
     guiWindow,  
     text = "Set Time for Alarm: ",  
     fg = "white",  
     bg = "#034F84",  
     relief = "solid",  
-    font = ("Courier", 12)  
+    font = ("Courier", 11)  
     ).place(  
         x = 5,  
         y = 55  
         )  
    
-hour = StringVar()  
-minute = StringVar()  
-second = StringVar()  
+hour = tk.StringVar()  
+minute = tk.StringVar()  
+second = tk.StringVar()  
    
-hourTime = Entry(  
+hourTime = tk.Entry(  
     guiWindow,  
     textvariable = hour,  
     bg = "#FEFBD8",  
     width = 6,  
     font = (20)  
     ).place(  
-        x = 230,  
-        y = 53  
+        x = 200,  
+        y = 55  
         )  
-minuteTime = Entry(  
+minuteTime = tk.Entry(  
     guiWindow,  
     textvariable = minute,  
     bg = "#FEFBD8",  
     width = 6,  
     font = (20)  
     ).place(  
-        x = 310,  
-        y = 53  
+        x = 265,  
+        y = 55  
         )  
-secondTime = Entry(  
+secondTime = tk.Entry(  
     guiWindow,  
     textvariable = second,  
     bg = "#FEFBD8",  
     width = 6,  
     font = (20)  
     ).place(  
-        x = 390,  
-        y = 53  
+        x = 329,  
+        y = 55  
         )  
-   
-submit = Button(  
+
+
+submit = tk.Button(  
     guiWindow,  
     text = "Set The Alarm",  
     fg = "white",  
@@ -123,9 +128,10 @@ submit = Button(
     width = 15,  
     command = getAlarmTime,  
     font = (25)  
-    ).place(  
-        x = 220,  
+    )
+submit.place(  
+        x = 200,  
         y = 100  
-        )  
-   
+        )
+ 
 guiWindow.mainloop()  
